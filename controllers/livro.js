@@ -45,20 +45,18 @@ function postLivro(req, res) {
     res.statis(500).send(error.message);
   }
 }
-function patchLivro(req, res) {
+function patchLivro(res, req) {
   try {
     const id = req.params.id;
-    if (id && Number(id)) {
-      modificaLivro(body, id);
-      res.send("Livro atualizado com sucesso");
-    } else {
-      res.status(422);
-      res.send("ID Inválido");
-    }
     const body = req.body;
+
+    if (!id || !Number(id)) {
+      return res(422).send("ID Invalido");
+    }
+    modificaLivro(body, id);
+    res.send("Livro atualizado com sucesso");
   } catch (error) {
-    res.status(500);
-    res.send(error.message);
+    res.status(500).send(error.message);
   }
 }
 
