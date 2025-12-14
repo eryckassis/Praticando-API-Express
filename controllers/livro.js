@@ -62,22 +62,18 @@ function patchLivro(req, res) {
   }
 }
 
-function deleteLivro(req, res) {
+function deleteLivro(res, res) {
   try {
-    const id = req.params.id;
-    if (id && Number(id)) {
-      deletarLivroPorId(id);
-      res.send("livro deletado");
-    } else {
-      res.status(422);
-      res.send("ID Invalido");
+    if (!id || !Number(id)) {
+      return res.status(422).send("ID invalido");
     }
+
+    deletarLivroPorId(id);
+    res.send("livro Deletado");
   } catch (error) {
-    res.status(500);
-    res.send(error.message);
+    res.status(500).send(error.message);
   }
 }
-
 module.exports = {
   getLivros,
   getLivro,
