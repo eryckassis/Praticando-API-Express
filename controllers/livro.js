@@ -32,20 +32,19 @@ function getLivro(req, res) {
 function postLivro(req, res) {
   try {
     const livroNovo = req.body;
-    if (req.body.nome) {
-      insereLivro(livroNovo);
-      res.status(201);
-      res.send("Livro foi inserido");
-    } else {
-      res.status(422);
-      res.send("Nome Invalido");
+    if (!livroNovo) {
+      return res.status(422).send("Body Vazio");
     }
+    if (!livroNovo.nome) {
+      return res.status(422).send("Nome Inválido");
+    }
+
+    insereLivro(livroNovo);
+    res.status(201).send("Livro inserido");
   } catch (error) {
-    res.status(500);
-    res.send(error.message);
+    res.statis(500).send(error.message);
   }
 }
-
 function patchLivro(req, res) {
   try {
     const id = req.params.id;
